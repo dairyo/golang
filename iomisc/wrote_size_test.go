@@ -40,7 +40,7 @@ func TestWroteSizeWrite(t *testing.T) {
 
 func TestWroteSizeError(t *testing.T) {
 	want := errors.New("foo")
-	w := NewWroteSize(&errorWriter{want})
+	w := NewWroteSize(writerFunc(func([]byte) (int, error) { return 0, want }))
 	n, got := w.Write([]byte("bar"))
 	if n != 0 {
 		t.Fatalf("ret val must be 0 but %d", n)
